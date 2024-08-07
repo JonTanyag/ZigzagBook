@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands/Books/Validators/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Zigzag.Core\Zigzag.Core.csproj" />
+    <ProjectReference Include="..\Zigzag.Infrastructure\Zigzag.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
