@@ -17,6 +17,7 @@ public class AddBookCommandHandler : IRequestHandler<AddBookCommand, AddBookResp
     {
         try
         {
+            request.Book.Id = Guid.NewGuid();
             await _bookService.AddBook(request.Book.FromDto(), cancellationToken);
 
             _logger.LogInformation("Book Added");

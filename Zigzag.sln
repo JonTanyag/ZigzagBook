@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zigzag.Infrastructure", "Zi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zigzag.Core", "Zigzag.Core\Zigzag.Core.csproj", "{E8601948-0940-41A8-AF78-170CE20A2FC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZigZag.UnitTest", "ZigZag.UnitTest\ZigZag.UnitTest.csproj", "{F6503E67-652A-4253-8B21-4854E0CEBDC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{E8601948-0940-41A8-AF78-170CE20A2FC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8601948-0940-41A8-AF78-170CE20A2FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8601948-0940-41A8-AF78-170CE20A2FC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6503E67-652A-4253-8B21-4854E0CEBDC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6503E67-652A-4253-8B21-4854E0CEBDC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6503E67-652A-4253-8B21-4854E0CEBDC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6503E67-652A-4253-8B21-4854E0CEBDC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
