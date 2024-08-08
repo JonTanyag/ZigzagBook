@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Moq;
 using Shouldly;
 using Zigzag.Core;
@@ -9,7 +8,7 @@ namespace ZigZag.UnitTest;
 
 public class BookRepositoryTests
 {
-        private Mock<BookDbContext> _mockContext;
+    private Mock<BookDbContext> _mockContext;
     private Mock<DbSet<Book>> _mockDbSet;
     private BookRepository _repository;
 
@@ -40,17 +39,39 @@ public class BookRepositoryTests
     [Test]
     public async Task UpdateAsync_ShouldUpdateBook()
     {
-        // Arrange
+
         var bookId = Guid.NewGuid();
-        var book = new Book { Id = bookId };
-        _mockDbSet.Setup(m => m.FindAsync(bookId, It.IsAny<CancellationToken>())).ReturnsAsync(book);
+        var book = new Book
+        {
+            Id = bookId,
+            Title = "Updated Title",
+            Author = "Updated Author",
+            ISBN = "Updated ISBN",
+            PublishedDate = DateTime.UtcNow
+        };
+
+        var existingBook = new Book
+        {
+            Id = bookId,
+            Title = "Original Title",
+            Author = "Original Author",
+            ISBN = "Original ISBN",
+            PublishedDate = DateTime.UtcNow.AddYears(-1) // Original date
+        };
+
+        _mockDbSet.Setup(m => m.FindAsync(bookId, It.IsAny<CancellationToken>()))
+                  .ReturnsAsync(existingBook);
 
         // Act
         await _repository.UpdateAsync(book, CancellationToken.None);
 
         // Assert
-        _mockDbSet.Verify(m => m.Update(book), Times.Once);
+        // Verify that the existingBook properties were updated
         _mockContext.Verify(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        existingBook.Title.ShouldBe(book.Title);
+        existingBook.Author.ShouldBe(book.Author);
+        existingBook.ISBN.ShouldBe(book.ISBN);
+        existingBook.PublishedDate.ShouldBe(book.PublishedDate);
     }
 
     [Test]
@@ -60,9 +81,9 @@ public class BookRepositoryTests
         var book = new Book { Id = Guid.NewGuid(), /* Initialize other properties as needed */ };
         _mockDbSet.Setup(m => m.FindAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync((Book)null);
 
-        // Act & Assert
-        var exception = await Should.ThrowAsync<NullReferenceException>(async () => await _repository.UpdateAsync(book, CancellationToken.None)); 
-        
+        // Act
+        var exception = await Should.ThrowAsync<NullReferenceException>(async () => await _repository.UpdateAsync(book, CancellationToken.None));
+
         // Asert
         exception.Message.ShouldBe("Book not found");
     }
@@ -107,7 +128,6 @@ public class BookRepositoryTests
 
         // Act & Assert
         Should.Throw<NullReferenceException>(async () => await _repository.GetByIdAsync(bookId, CancellationToken.None));
-            // .Message.ShouldBe("Book not found");
     }
 
     [Test]
@@ -133,8 +153,8 @@ public class BookRepositoryTests
         _mockDbSet.Setup(m => m.FindAsync(It.IsAny<Guid>())).ReturnsAsync((Book)null);
 
         // Act
-        var exception = await Should.ThrowAsync<NullReferenceException>(async () => await _repository.DeleteAsync(bookId, CancellationToken.None)); 
-        
+        var exception = await Should.ThrowAsync<NullReferenceException>(async () => await _repository.DeleteAsync(bookId, CancellationToken.None));
+
         // Asert
         exception.Message.ShouldBe("book cannot be deleted.");
     }

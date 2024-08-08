@@ -20,13 +20,15 @@ public class BookRepository : IBookRepository
 
     public async Task UpdateAsync(Book book, CancellationToken cancellationToken)
     {
-        var existingBook = await _context.Books.FindAsync(book.Id);
+        var existingBook = await _context.Books.FindAsync(book.Id, cancellationToken);
         
         if (existingBook is null) 
             throw new NullReferenceException("Book not found");
         
-        _context.Entry(existingBook).State = EntityState.Detached;
-        _context.Books.Update(book);
+        existingBook.Title = book.Title;
+        existingBook.Author = book.Author;
+        existingBook.ISBN = book.ISBN;
+        existingBook.PublishedDate = book.PublishedDate;
 
         await _context.SaveChangesAsync(cancellationToken);
     }
