@@ -10,8 +10,9 @@ public class UpdateBookService : IUpdateBookService
     {
         _repository = repository;
     }
-    public async Task UpdateBook(Book book, CancellationToken cancellationToken)
+    public async Task<Book> UpdateBook(Book book, CancellationToken cancellationToken)
     {
         await _repository.UpdateAsync(book, cancellationToken);
+        return book;
     }
 }

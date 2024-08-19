@@ -2,7 +2,7 @@
 
 namespace Zigzag.Application;
 
-public class AddBookCommand : IRequest<AddBookResponse>
+public class AddBookCommand : IRequest<BookDto>
 {
     public BookDto Book { get; set; }   
 }

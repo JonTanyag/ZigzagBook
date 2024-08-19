@@ -40,10 +40,10 @@ public class BookRepositoryTests
     public async Task UpdateAsync_ShouldUpdateBook()
     {
 
-        var bookId = Guid.NewGuid();
+        
         var book = new Book
         {
-            Id = bookId,
+            Id = 1,
             Title = "Updated Title",
             Author = "Updated Author",
             ISBN = "Updated ISBN",
@@ -52,14 +52,14 @@ public class BookRepositoryTests
 
         var existingBook = new Book
         {
-            Id = bookId,
+            Id = 2,
             Title = "Original Title",
             Author = "Original Author",
             ISBN = "Original ISBN",
             PublishedDate = DateTime.UtcNow.AddYears(-1) // Original date
         };
 
-        _mockDbSet.Setup(m => m.FindAsync(bookId, It.IsAny<CancellationToken>()))
+        _mockDbSet.Setup(m => m.FindAsync(1, It.IsAny<CancellationToken>()))
                   .ReturnsAsync(existingBook);
 
         // Act
@@ -78,7 +78,7 @@ public class BookRepositoryTests
     public async Task UpdateAsync_ShouldThrowException_WhenBookNotFound()
     {
         // Arrange
-        var book = new Book { Id = Guid.NewGuid(), /* Initialize other properties as needed */ };
+        var book = new Book { Id = 1, /* Initialize other properties as needed */ };
         _mockDbSet.Setup(m => m.FindAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync((Book)null);
 
         // Act
@@ -109,8 +109,8 @@ public class BookRepositoryTests
     public async Task GetByIdAsync_ShouldReturnBook_WhenBookExists()
     {
         // Arrange
-        var book = new Book { Id = Guid.NewGuid() };
-        _mockDbSet.Setup(m => m.FindAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(book);
+        var book = new Book { Id = 1 };
+        _mockDbSet.Setup(m => m.FindAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(book);
 
         // Act
         var result = _repository.GetByIdAsync(book.Id, CancellationToken.None).Result;
@@ -123,19 +123,18 @@ public class BookRepositoryTests
     public async Task GetByIdAsync_ShouldThrowException_WhenBookNotFound()
     {
         // Arrange
-        var bookId = Guid.NewGuid();
         _mockDbSet.Setup(m => m.FindAsync(It.IsAny<Func<Book, bool>>())).ReturnsAsync((Book)null);
 
         // Act & Assert
-        Should.Throw<NullReferenceException>(async () => await _repository.GetByIdAsync(bookId, CancellationToken.None));
+        Should.Throw<NullReferenceException>(async () => await _repository.GetByIdAsync(1, CancellationToken.None));
     }
 
     [Test]
     public async Task DeleteAsync_ShouldRemoveBook()
     {
         // Arrange
-        var book = new Book { Id = Guid.NewGuid(), /* Initialize other properties as needed */ };
-        _mockDbSet.Setup(m => m.FindAsync(It.IsAny<Guid>())).ReturnsAsync(book);
+        var book = new Book { Id = 1, /* Initialize other properties as needed */ };
+        _mockDbSet.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(book);
 
         // Act
         await _repository.DeleteAsync(book.Id, CancellationToken.None);
@@ -149,11 +148,10 @@ public class BookRepositoryTests
     public async Task DeleteAsync_ShouldThrowException_WhenBookNotFound()
     {
         // Arrange
-        var bookId = Guid.NewGuid();
         _mockDbSet.Setup(m => m.FindAsync(It.IsAny<Guid>())).ReturnsAsync((Book)null);
 
         // Act
-        var exception = await Should.ThrowAsync<NullReferenceException>(async () => await _repository.DeleteAsync(bookId, CancellationToken.None));
+        var exception = await Should.ThrowAsync<NullReferenceException>(async () => await _repository.DeleteAsync(1, CancellationToken.None));
 
         // Asert
         exception.Message.ShouldBe("book cannot be deleted.");

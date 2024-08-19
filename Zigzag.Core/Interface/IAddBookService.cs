@@ -2,5 +2,5 @@
 
 public interface IAddBookService
 {
-    Task AddBook(Book book, CancellationToken cancellationToken);
+    Task<Book> AddBook(Book book, CancellationToken cancellationToken);
 }

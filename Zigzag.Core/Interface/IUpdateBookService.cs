@@ -2,5 +2,5 @@
 
 public interface IUpdateBookService
 {
-    Task UpdateBook(Book book, CancellationToken cancellationToken);
+    Task<Book> UpdateBook(Book book, CancellationToken cancellationToken);
 }

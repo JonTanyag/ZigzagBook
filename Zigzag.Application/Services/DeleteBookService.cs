@@ -10,7 +10,7 @@ public class DeleteBookService : IDeleteBookService
     {
         _repository = repository;
     }
-    public async Task DeleteBook(Guid id, CancellationToken cancellationToken)
+    public async Task DeleteBook(int id, CancellationToken cancellationToken)
     {
         await _repository.DeleteAsync(id, cancellationToken);
     }

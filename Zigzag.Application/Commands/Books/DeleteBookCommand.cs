@@ -4,10 +4,10 @@ namespace Zigzag.Application;
 
 public class DeleteBookCommand : IRequest<DeleteBookResponse>
 {
-    public DeleteBookCommand(Guid id)
+    public DeleteBookCommand(int id)
     {
         Id = id;
     }
 
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 }

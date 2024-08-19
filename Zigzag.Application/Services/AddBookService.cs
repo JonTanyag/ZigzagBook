@@ -11,8 +11,9 @@ public class AddBookService : IAddBookService
         _repository = repository;
     }
 
-    public async Task AddBook(Book book, CancellationToken cancellationToken)
+    public async Task<Book> AddBook(Book book, CancellationToken cancellationToken)
     {
         await _repository.AddAsync(book,cancellationToken);
+        return book;
     }
 }

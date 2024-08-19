@@ -2,5 +2,5 @@
 
 public interface IDeleteBookService
 {
-    Task DeleteBook(Guid id, CancellationToken cancellationToken);
+    Task DeleteBook(int id, CancellationToken cancellationToken);
 }

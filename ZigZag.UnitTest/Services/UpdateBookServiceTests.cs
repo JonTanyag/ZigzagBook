@@ -21,7 +21,7 @@ public class UpdateBookServiceTests
     public async Task UpdateBook_Service_Should_Call_Repository()
     {
         // Arrange
-        var book = new Book {Id = Guid.NewGuid() };
+        var book = new Book {Id = 1 };
         var cancellationToken = CancellationToken.None;
 
         _mockRepository.Setup(r => r.UpdateAsync(It.IsAny<Book>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
@@ -37,7 +37,7 @@ public class UpdateBookServiceTests
     public async Task UpdateBook_ShouldThrowException_WhenRepositoryThrows()
     {
         // Arrange
-        var book = new Book { Id = Guid.NewGuid() };
+        var book = new Book { Id = 1 };
         var cancellationToken = CancellationToken.None;
         var exceptionMessage = "Test Exception";
 

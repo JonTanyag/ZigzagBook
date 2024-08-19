@@ -38,7 +38,7 @@ public class BookRepository : IBookRepository
         return _context.Books;
     }
 
-    public async Task<Book> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<Book> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         var book = await _context.Books.FindAsync(id, cancellationToken);
         if (book is null)
@@ -47,7 +47,7 @@ public class BookRepository : IBookRepository
         return book;
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken)
     {
         var book = await _context.Books.FindAsync(id);
 

@@ -25,9 +25,9 @@ public class DeleteBookCommandHandlerTests
     public async Task Handle_Delete_Book_Should_Return_Success_Response()
     {
         // Arrange
-        var bookId = Guid.NewGuid();
+        var bookId = 1;
         var command = new DeleteBookCommand(bookId) { Id = bookId};
-        _mockService.Setup(s => s.DeleteBook(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        _mockService.Setup(s => s.DeleteBook(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         // Act
         var result = await _mockHandler.Handle(command, CancellationToken.None);
@@ -44,10 +44,10 @@ public class DeleteBookCommandHandlerTests
     public async Task Handle_DeleteBookThrowsException_ReturnsErrorResponse()
     {
         // Arrange
-        var bookId = Guid.NewGuid();
+        var bookId = 1;
         var command = new DeleteBookCommand(bookId) { Id = bookId };
         var exceptionMessage = "Test Exception";
-        _mockService.Setup(s => s.DeleteBook(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).Throws(new Exception(exceptionMessage));
+        _mockService.Setup(s => s.DeleteBook(It.IsAny<int>(), It.IsAny<CancellationToken>())).Throws(new Exception(exceptionMessage));
 
         // Act
         var result = await _mockHandler.Handle(command, CancellationToken.None);

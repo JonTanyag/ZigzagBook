@@ -16,7 +16,7 @@ public class GetBookService : IGetBookService
        return books;
     }
 
-    public async Task<Book> GetBookByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<Book> GetBookByIdAsync(int id, CancellationToken cancellationToken)
     {
         var book = await _repository.GetByIdAsync(id, cancellationToken);
         return book;
