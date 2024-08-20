@@ -18,14 +18,14 @@ public class BookControler : Controller
 
     [HttpGet("/books")]
     [ApiKey]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [Produces("application/json")]
     [SwaggerOperation(
             Summary = "Get all books",
             Description = "Retrieve a list of all books in the library.",
             OperationId = "GetBooks",
             Tags = new[] { "LibraryAPI" }
         )]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(List<BookDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get()
     {
         var response = await _mediatr.Send(new GetBooksQuery());
@@ -40,49 +40,50 @@ public class BookControler : Controller
             OperationId = "GetBook",
             Tags = new[] { "LibraryAPI" }
         )]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(BookDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get(int id)
     {
         var response = await _mediatr.Send(new GetBookByIdQuery(id));
         if (response is null)
-           return NotFound();
+            return NotFound();
 
         return Ok(response);
     }
 
     [HttpPost]
     [ApiKey]
-    [Produces("application/json")]
     [SwaggerOperation(
             Summary = "Add a new book",
             Description = "Add a new book to the library.",
-            OperationId = "Post",
+            OperationId = "CreateBook",
             Tags = new[] { "LibraryAPI" }
         )]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(BookDto), StatusCodes.Status201Created)]
     public async Task<IActionResult> Post([FromBody] AddBookCommand command)
     {
         var response = await _mediatr.Send(command);
-        
-        return CreatedAtAction(nameof(Get), new { id = response.Id}, response);
+
+        return CreatedAtAction(nameof(Get), new { id = response.Id }, response);
     }
 
     [HttpPut("{id}")]
     [ApiKey]
-    [Produces("application/json")]
     [SwaggerOperation(
             Summary = "Update a book",
             Description = "Update an existing book by its ID.",
-            OperationId = "Put",
+            OperationId = "UpdateBook",
             Tags = new[] { "LibraryAPI" }
         )]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(BookDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Put(int id, [FromBody] UpdateBookCommand command)
     {
         if (id != command.Book.Id)
-            return NotFound("Id mismatch");
+            return NotFound();
 
         var response = await _mediatr.Send(command);
         return Ok(response);

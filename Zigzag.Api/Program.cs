@@ -57,7 +57,6 @@ builder.Services.AddSwaggerGen(c =>
         Description = "A simple API for managing a library system.",
         Version = "v1"
     });
-    c.OperationFilter<AddSwaggerResponseExamples>();
     c.EnableAnnotations();
 
     c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
