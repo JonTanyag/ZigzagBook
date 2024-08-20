@@ -45,6 +45,9 @@ public class BookControler : Controller
     public async Task<IActionResult> Get(int id)
     {
         var response = await _mediatr.Send(new GetBookByIdQuery(id));
+        if (response is null)
+           return NotFound();
+
         return Ok(response);
     }
 
@@ -61,7 +64,8 @@ public class BookControler : Controller
     public async Task<IActionResult> Post([FromBody] AddBookCommand command)
     {
         var response = await _mediatr.Send(command);
-        return Ok(response);
+        
+        return CreatedAtAction(nameof(Get), new { id = response.Id}, response);
     }
 
     [HttpPut("{id}")]
